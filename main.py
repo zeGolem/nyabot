@@ -14,25 +14,31 @@ with open("gifs.json") as file:
     gifs = json.load(file)
 
 # Commands
+# Gif commands
 
 
-async def hug_handler(message: discord.Message, command: list[str]):
+async def gif_handler(message: discord.Message, command: list[str]):
+    gif_kind = command[0]
+
     target = ""
     if len(command) <= 1:
         target = f"<@{message.author.id}>"
     else:
         target = command[1]
 
-    if "hugs" not in gifs:
+    if gif_kind not in gifs:
         await message.reply(
-            "im so sorry, i have no hugs to give you for now... come back later :3")
+            "im so sorry, i have no such thing to give you for now... come back later :3")
 
-    hug = random.choice(gifs["hugs"])
-    await message.reply(f"here u go {target}\n{hug}")
+    choosen_gif = random.choice(gifs[gif_kind])
+    await message.reply(f"here u go {target}\n{choosen_gif}")
 
-COMMAND_HANDLERS = {
-    "hug": hug_handler,
-}
+GIF_COMMANDS = [
+    "hug",
+    "kiss",
+    "cuddle",
+    "hold",
+]
 
 # Discord events
 
@@ -46,8 +52,8 @@ async def on_message(message: discord.Message):
     message_as_command = message.content.split(" ")
 
     command = message_as_command[0]
-    if command in COMMAND_HANDLERS:
-        await COMMAND_HANDLERS[command](message, message_as_command)
+    if command in GIF_COMMANDS:
+        await gif_handler(message, message_as_command)
 
 
 client.run(open("token").read())
