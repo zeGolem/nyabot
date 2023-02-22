@@ -38,6 +38,7 @@ GIF_COMMANDS = [
     "kiss",
     "cuddle",
     "hold",
+    "pat",
 ]
 
 # Discord events
