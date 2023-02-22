@@ -27,6 +27,7 @@ async def gif_handler(message: discord.Message, command: list[str]):
     if gif_kind not in gifs:
         await message.reply(
             "im so sorry, i have no such thing to give you for now... come back later :3")
+        return
 
     choosen_gif = random.choice(gifs[gif_kind])
     await message.reply(f"here u go {target}\n{choosen_gif}")
