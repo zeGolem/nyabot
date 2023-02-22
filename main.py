@@ -20,11 +20,9 @@ with open("gifs.json") as file:
 async def gif_handler(message: discord.Message, command: list[str]):
     gif_kind = command[0]
 
-    target = ""
-    if len(command) <= 1:
-        target = f"<@{message.author.id}>"
-    else:
-        target = command[1]
+    target = message.author.name
+    if len(message.mentions) == 0:
+        target = message.mentions[0].name
 
     if gif_kind not in gifs:
         await message.reply(
