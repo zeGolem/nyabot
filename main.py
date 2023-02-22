@@ -21,7 +21,7 @@ async def gif_handler(message: discord.Message, command: list[str]):
     gif_kind = command[0]
 
     target = message.author.name
-    if len(message.mentions) == 0:
+    if len(message.mentions) > 0:
         target = message.mentions[0].name
 
     if gif_kind not in gifs:
