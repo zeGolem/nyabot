@@ -7,7 +7,9 @@
     "https://media.tenor.com/J7eGDvGeP9IAAAAC/enage-kiss-anime-hug.gif",
     "https://media.tenor.com/bEKamK08go8AAAAd/hug-cat.gif"
   ],
-  "cuddle": ["https://media.tenor.com/OaSQqWO4-YUAAAAC/snuggle-anime.gif"],
+  "cuddle": [
+    "https://media.tenor.com/OaSQqWO4-YUAAAAC/snuggle-anime.gif"
+  ],
   "hold": [
     "https://media.tenor.com/-76rfR0BNTAAAAAC/anime-couple-hand-holding.gif"
   ],
@@ -19,5 +21,25 @@
     "https://media.tenor.com/weSGHA3VWqwAAAAd/classic-ef-yuri.gif",
     "https://media.tenor.com/0LMxPQdFBKAAAAAC/nekopara-kiss.gif",
     "https://media.discordapp.net/attachments/775642657627832340/1077195063953723482/image1.gif"
+  ],
+  "fuck": [
+    "https://media.discordapp.net/attachments/857047804063907840/1005151333801795625/89CF232B-1310-4577-AECC-B4A143CF6DA1.gif"
+  ],
+  "wag": [
+    "https://cdn.discordapp.com/emojis/934937659091075092.gif",
+    "https://media.discordapp.net/attachments/331911505173807115/1073969787438374962/48D51101-3155-469A-A178-6D002780331E.gif",
+    "https://cdn.weeb.sh/images/rJCVcytDW.gif"
+  ],
+  "lewd": [
+    "https://cdn.weeb.sh/images/H18uap_vb.gif",
+    "https://cdn.weeb.sh/images/rJgCSpp_wb.gif"
+  ],
+  "boop": [ 
+    "https://media.tenor.com/xEULDAPjA0YAAAAC/boop-anime-anime.gif",
+    "https://media.tenor.com/l5XjHcppGN0AAAAd/boop.gif",
+    "https://media.tenor.com/88HZjGgr3k0AAAAd/doggo-boop.gif"
+  ],
+  "blush": [ 
+    "https://tenor.com/view/shy-gif-27191515"
   ]
 }

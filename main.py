@@ -13,31 +13,55 @@ gifs = {}
 with open("gifs.json") as file:
     gifs = json.load(file)
 
+HELP_MESSAGE= """
+Commands:
+```hug - Hugs target user  
+kiss - Kisses target user 
+cuddle - Cuddles with target user 
+hold - Hold target user's hand 
+pat - Gives the targeted user headpats 
+wag - Makes the target user's tail wag  
+fuck - Does some "stuff" to the target user 😳 
+flush - Makes the target user blush 
+lewd - Makes you say that it's too lewd 
+boop - Boops target user
+help - shows this list```
+"""
+
 # Commands
-# Gif commands
 
 
-async def gif_handler(message: discord.Message, command: list[str]):
-    gif_kind = command[0]
+async def command_handler(message: discord.Message, command: list[str]):
+    command_typed = command[0]
 
     target = message.author.name
     if len(message.mentions) > 0:
         target = message.mentions[0].name
 
-    if gif_kind not in gifs:
+    if command_typed == "help":
+        await message.reply(HELP_MESSAGE)
+        return        
+
+    if command_typed not in gifs:
         await message.reply(
             "im so sorry, i have no such thing to give you for now... come back later :3")
         return
 
-    choosen_gif = random.choice(gifs[gif_kind])
+    choosen_gif = random.choice(gifs[command_typed])
     await message.reply(f"here u go {target}\n{choosen_gif}")
 
-GIF_COMMANDS = [
+COMMANDS = [
     "hug",
     "kiss",
     "cuddle",
     "hold",
     "pat",
+    "wag",
+    "fuck",
+    "blush",
+    "help",
+    "lewd",
+    "boop",
 ]
 
 # Discord events
@@ -52,8 +76,8 @@ async def on_message(message: discord.Message):
     message_as_command = message.content.split(" ")
 
     command = message_as_command[0]
-    if command in GIF_COMMANDS:
-        await gif_handler(message, message_as_command)
+    if command in COMMANDS:
+        await command_handler(message, message_as_command)
 
 
 client.run(open("token").read())
