@@ -1,0 +1,44 @@
+{
+  "hug": [
+    "$1 hugs $2. Cutee~ ",
+    "$1 hugs $2 tightly.",
+    "$2 got hugged by $1! :3"
+  ],
+  "cuddle": [
+    "$1 cuddles $2 :3",
+    "$1 cuddles $2 tightly."
+  ],
+  "hold": [
+    "$1 holds $2's hand, lewd :3",
+    "$1 holds $2's hand, cuteee!~",
+    "$1 holds $2's hand tightly."
+  ],
+  "pat": [
+    "$1 gave $2 headpats :3",
+    "$2 got headpats from $1 :3"
+  ],
+  "kiss": [
+    "$1 Kissed $2!~",
+    "$1 Kissed $2... >~<"
+  ],
+  "fuck": [
+    "$1 does lewd stuff to $2. Oh my..."
+  ],
+  "wag": [
+    "$2's Tail is wagging~ Cute!~",
+    "$2 wags their tail :3"
+  ],
+  "lewd": [
+    "$1 says this is too lewd!~",
+    "$1, close your eyes!"
+  ],
+  "boop": [
+    "$1 boops $2!~",
+    "$1 booped $2!~ Cutee!~",
+    "$1 booped $2 Nyaaa!~"
+  ],
+  "blush": [ 
+    "$2's blushing!~ Cutieeee~",
+    "$2's blushing~ How cute~"
+  ]
+}
