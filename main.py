@@ -7,7 +7,7 @@ import random
 intents = discord.Intents.default()
 intents.message_content = True
 
-client = discord.Client(intents=intents)
+bot = discord.Bot(intents=intents)
 
 gifs = {}
 with open("gifs.json") as file:
@@ -75,7 +75,7 @@ COMMANDS = [
 # Discord events
 
 
-@client.event
+@bot.event
 async def on_message(message: discord.Message):
     if message.author.bot == True:
         return
@@ -88,4 +88,4 @@ async def on_message(message: discord.Message):
         await command_handler(message, message_as_command)
 
 
-client.run(open("token").read())
+bot.run(open("token").read())
