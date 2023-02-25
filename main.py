@@ -18,8 +18,9 @@ with open("lines.json") as file:
     lines = json.load(file)
 
 HELP_MESSAGE = """
-Commands:
-```hug - Hugs target user  
+Gif commands:
+```
+hug - Hugs target user  
 kiss - Kisses target user 
 cuddle - Cuddles with target user 
 hold - Hold target user's hand 
@@ -29,13 +30,25 @@ fuck - Does some "stuff" to the target user 😳
 flush - Makes the target user blush 
 lewd - Makes you say that it's too lewd 
 boop - Boops target user
-help - shows this list```
+```
+
+Slash commands:
+```
+/help - Shows this message
+```
 """
+
+# Slash commands
+
+
+@bot.slash_command()
+async def help(ctx: discord.ApplicationContext):
+    await ctx.respond(HELP_MESSAGE)
 
 # Commands
 
 
-async def command_handler(message: discord.Message, command: list[str]):
+async def gif_command_handler(message: discord.Message, command: list[str]):
     command_typed = command[0]
 
     target = message.author.name
@@ -58,7 +71,7 @@ async def command_handler(message: discord.Message, command: list[str]):
     choosen_line = choosen_line.replace("$2", target)
     await message.reply(f"{choosen_line}\n{choosen_gif}")
 
-COMMANDS = [
+GIF_COMMANDS = [
     "hug",
     "kiss",
     "cuddle",
@@ -67,7 +80,6 @@ COMMANDS = [
     "wag",
     "fuck",
     "blush",
-    "help",
     "lewd",
     "boop",
 ]
@@ -84,8 +96,8 @@ async def on_message(message: discord.Message):
     message_as_command = message.content.split(" ")
 
     command = message_as_command[0]
-    if command in COMMANDS:
-        await command_handler(message, message_as_command)
+    if command in GIF_COMMANDS:
+        await gif_command_handler(message, message_as_command)
 
 
 bot.run(open("token").read())
