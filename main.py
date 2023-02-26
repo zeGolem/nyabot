@@ -63,6 +63,38 @@ def __find_mariage_for_member_id(member_id: int) -> list[int]:
 
 @bot.slash_command()
 @discord.guild_only()
+async def divorce(context: discord.ApplicationContext):
+    if context.user is None:
+        await context.respond("error uwu", ephemeral=True)
+        return
+
+    user_marriage = __find_mariage_for_member_id(context.user.id)
+    if len(user_marriage) <= 0:
+        await context.respond("you can't divorce if you're not married, silly :3")
+        return
+
+    data = data_manager.get_data()
+    if len(user_marriage) <= 2:
+        data["marriages"].remove(user_marriage)
+        with data_manager.DataWriter() as writer:
+            writer.set_data(data)
+        await context.respond(f"things didn't work out, and {context.user.mention} choose to divorce")
+        return
+
+    # Is polycule
+    new_polycule = user_marriage.copy()
+    new_polycule.remove(context.user.id)
+    data["marriages"].remove(user_marriage)
+    data["marriages"].append(new_polycule)
+
+    with data_manager.DataWriter() as writer:
+        writer.set_data(data)
+
+    await context.respond(f"{context.user.mention} has taken the decision to step away from the polycule")
+
+
+@bot.slash_command()
+@discord.guild_only()
 @discord.option(
     "target", type=discord.Member,
     description="User whos marraige you want to check",
