@@ -1,47 +1,72 @@
 import discord
 
 
-class MariageConfirmationView(discord.ui.View):
-    def __init__(self, target: discord.Member):
+class ConfirmationView(discord.ui.View):
+    def __init__(self, timeout: float | None):
         super().__init__()
-        self.timeout = None
-        self.marriage_accepted: bool | None = None
-        self.target = target
+        self.timeout = timeout
+        self.user_accepted: bool | None = None
+
+    def _user_can_respond(self, user: discord.User | discord.Member):
+        pass
+
+    async def __on_wrong_user(self, interaction: discord.Interaction):
+        pass
+
+    async def _on_accept(self, interaction: discord.Interaction, replyer: discord.User | discord.Member):
+        pass
+
+    async def _on_deny(self, interaction: discord.Interaction, replyer: discord.User | discord.Member):
+        pass
 
     @discord.ui.button(label="Accept", style=discord.ButtonStyle.green, row=1)
     async def accept(self, _: discord.ui.Button, interaction: discord.Interaction):
-        if interaction.user != self.target:
-            print(interaction.user, self.target)
-            await interaction.response.send_message(
-                "ur not the one getting married, silly :3"
-            )
+        if interaction.user is None:
+            await interaction.response.send_message("something went wrong :(")
+            return
+        if not self._user_can_respond(interaction.user):
+            await self.__on_wrong_user(interaction)
             return
 
-        user_who_replied = interaction.user
-        mention = user_who_replied.mention \
-            if user_who_replied is not None else "<something went wrong :‹>"
-        await interaction.response.send_message(
-            f"{mention} accepted the proposal :3 lovely"
-        )
+        await self._on_accept(interaction, interaction.user)
 
-        self.marriage_accepted = True
+        self.user_accepted = True
         self.stop()
 
     @discord.ui.button(label="Deny", style=discord.ButtonStyle.red, row=1)
     async def deny(self, _: discord.ui.Button, interaction: discord.Interaction):
-        if interaction.user != self.target:
-            await interaction.response.send_message(
-                "ur not the one getting married, silly :3"
-            )
+        if interaction.user is None:
+            await interaction.response.send_message("something went wrong :(")
+            return
+        if not self._user_can_respond(interaction.user):
+            await self.__on_wrong_user(interaction)
             return
 
-        user_who_replied = interaction.user
-        mention = user_who_replied.mention \
-            if user_who_replied is not None else "<something went wrong :‹>"
+        await self._on_deny(interaction, interaction.user)
 
+        self.user_accepted = False
+        self.stop()
+
+
+class MariageConfirmationView(ConfirmationView):
+    def __init__(self, target: discord.Member):
+        super().__init__(timeout=None)
+        self.target = target
+
+    def _user_can_respond(self, user: discord.User | discord.Member):
+        return user == self.target
+
+    async def _on_wrong_user(self, interaction: discord.Interaction):
         await interaction.response.send_message(
-            f"{mention} didn't wanna get married yet..."
+            "ur not the one getting married, silly :3", ephemeral=True, delete_after=10
         )
 
-        self.marriage_accepted = False
-        self.stop()
+    async def _on_accept(self, interaction: discord.Interaction, replyer: discord.User | discord.Member):
+        await interaction.response.send_message(
+            f"{replyer.mention} accepted the proposal :3 so cute!"
+        )
+
+    async def _on_deny(self, interaction: discord.Interaction, replyer: discord.User | discord.Member):
+        await interaction.response.send_message(
+            f"{replyer.mention} isn't ready yet..."
+        )

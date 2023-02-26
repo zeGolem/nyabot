@@ -85,11 +85,11 @@ async def marry(
         + f" {marriage_asker.mention}?", view=marriage_confirmation)
 
     await marriage_confirmation.wait()
-    if marriage_confirmation.marriage_accepted is None:
+    if marriage_confirmation.user_accepted is None:
         await context.respond("silly little bug going on :3 try again l8er :3")
         return
 
-    if marriage_confirmation.marriage_accepted == False:
+    if marriage_confirmation.user_accepted == False:
         await context.respond(
             "no consent == no marriage! consent is key to a happy life :3"
         )
