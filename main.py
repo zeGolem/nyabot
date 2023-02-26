@@ -71,6 +71,9 @@ def __find_mariage_for_member_id(member_id: int) -> list[int]:
 async def marry(
         context: discord.ApplicationContext, member_to_marry: discord.Member
 ):
+    # TODO: Refactor marriage system
+    # This function is massive, it should be split up, and probably in another file!
+
     # Check if the person asked in mariage is interested
     marriage_asker = context.author
     if marriage_asker is None:
@@ -116,11 +119,66 @@ async def marry(
 
         return
 
-    await context.respond(
-        "ooh looks like you're trying to do a ploly marriage..." +
-        " unfortunately, that's still a work in progress," +
-        " come back later to register it :3"
-    )
+    users_who_confirmed_the_marriage = [marriage_asker.id, member_to_marry.id]
+
+    users_who_need_to_allow_marriage = askees_marriage
+    users_who_need_to_allow_marriage += askers_marriage
+
+    for user_to_ask in users_who_need_to_allow_marriage:
+        if user_to_ask in users_who_confirmed_the_marriage:
+            continue
+
+        user_to_ask_as_member = await bot.fetch_user(user_to_ask)
+
+        polycule_confirmation_view = interaction_views.PolyculeMemberJoinConfirmationView(
+            user_to_ask_as_member)
+
+        member_to_add_to_polycule = member_to_marry if member_to_marry.id not in __find_mariage_for_member_id(
+            user_to_ask) else marriage_asker
+
+        await context.respond(
+            f"{user_to_ask_as_member.mention}, do you agree to adding "
+            + f"{member_to_add_to_polycule.mention} to the polycule?",
+            view=polycule_confirmation_view
+        )
+
+        await polycule_confirmation_view.wait()
+
+        if polycule_confirmation_view.user_accepted is None:
+            await context.respond("you hit a bug owo. nothing i can do, try again!")
+            return
+
+        if polycule_confirmation_view.user_accepted == False:
+            await context.respond(f"seems like {user_to_ask_as_member} doesn't want " +
+                                  "to take new people in the polycule yet... can't proceed with mariage")
+            return
+
+        users_who_confirmed_the_marriage.append(user_to_ask)
+
+    # Everyone agrees, let's register the marriage
+    data = data_manager.get_data()
+
+    # Disband existing marriages with members of the new polycule to avoid issues
+    id_of_marriages_to_disband = []
+    for index, marriage in enumerate(data["marriages"]):
+        for user in users_who_confirmed_the_marriage:
+            if user in marriage:
+                id_of_marriages_to_disband.append(index)
+    for i in id_of_marriages_to_disband:
+        if len(data["marriages"]) <= 0:
+            # No marriages left, so nothing to disband!
+            break
+        data["marriages"].pop(i)
+
+    # Register the new marriage
+    data["marriages"].append(users_who_confirmed_the_marriage)
+
+    with data_manager.DataWriter() as writer:
+        writer.set_data(data)
+
+    formated_polycule_list = '\n'.join(
+        [f"- <@{user_id}>" for user_id in users_who_confirmed_the_marriage])
+    await context.respond(f"woo! a new polycule was formed! members:\n{formated_polycule_list}")
 
 
 @bot.slash_command()

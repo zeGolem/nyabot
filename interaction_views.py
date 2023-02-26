@@ -70,3 +70,27 @@ class MariageConfirmationView(ConfirmationView):
         await interaction.response.send_message(
             f"{replyer.mention} isn't ready yet..."
         )
+
+
+class PolyculeMemberJoinConfirmationView(ConfirmationView):
+    def __init__(self, target: discord.User):
+        super().__init__(timeout=15*60)
+        self.target = target
+
+    def _user_can_respond(self, user: discord.User | discord.Member):
+        return user == self.target
+
+    async def _on_wrong_user(self, interaction: discord.Interaction):
+        await interaction.response.send_message(
+            "ur not the one getting married, silly :3", ephemeral=True, delete_after=10
+        )
+
+    async def _on_accept(self, interaction: discord.Interaction, replyer: discord.User | discord.Member):
+        await interaction.response.send_message(
+            f"{replyer.mention} is okay for extending the polycule :3 kawaii desune~"
+        )
+
+    async def _on_deny(self, interaction: discord.Interaction, replyer: discord.User | discord.Member):
+        await interaction.response.send_message(
+            f"{replyer.mention} isn't ready yet..."
+        )
