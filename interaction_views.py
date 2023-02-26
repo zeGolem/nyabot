@@ -50,7 +50,7 @@ class ConfirmationView(discord.ui.View):
 
 class MariageConfirmationView(ConfirmationView):
     def __init__(self, target: discord.Member):
-        super().__init__(timeout=None)
+        super().__init__(timeout=15*60)  # 15 minues timeout
         self.target = target
 
     def _user_can_respond(self, user: discord.User | discord.Member):
