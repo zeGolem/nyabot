@@ -66,7 +66,7 @@ def __find_mariage_for_member_id(member_id: int) -> list[int]:
 @discord.option(
     "target", type=discord.Member,
     description="Which user to marry",
-    required=False,
+    required=True,
 )
 async def marry(
         context: discord.ApplicationContext, member_to_marry: discord.Member
