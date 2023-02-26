@@ -77,6 +77,13 @@ async def marry(
         await context.respond("ow :/ something went wonky wonky, try again!")
         return
 
+    askers_marriage = __find_mariage_for_member_id(marriage_asker.id)
+    askees_marriage = __find_mariage_for_member_id(member_to_marry.id)
+
+    if member_to_marry.id in askers_marriage:  # Already married
+        await context.respond(f"u are already married to {member_to_marry.mention}, silly!")
+        return
+
     marriage_confirmation = interaction_views.MariageConfirmationView(
         member_to_marry
     )
@@ -95,9 +102,6 @@ async def marry(
         )
 
     # Marriage was accepted, yay :3!
-    askers_marriage = __find_mariage_for_member_id(marriage_asker.id)
-    askees_marriage = __find_mariage_for_member_id(member_to_marry.id)
-
     # Now check for polycules
     if len(askees_marriage) == 0 and len(askers_marriage) == 0:
         # No polycules, just update the records to marry the two :3
