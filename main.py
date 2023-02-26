@@ -103,7 +103,7 @@ async def marry(
 
     # Marriage was accepted, yay :3!
     # Now check for polycules
-    if len(askees_marriage) == 0 and len(askers_marriage) == 0:
+    if len(askers_marriage) == 0 and len(askees_marriage) == 0:
         # No polycules, just update the records to marry the two :3
         data = data_manager.get_data()
         data["marriages"].append([marriage_asker.id, member_to_marry.id])
