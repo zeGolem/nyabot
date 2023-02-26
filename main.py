@@ -39,6 +39,7 @@ Slash commands:
 ```
 /help - Shows this message
 /marry - Marries someone
+/marriage - Shows marriage information
 ```
 """
 
@@ -59,6 +60,31 @@ def __find_mariage_for_member_id(member_id: int) -> list[int]:
 
 
 # Slash commands
+
+@bot.slash_command()
+@discord.guild_only()
+@discord.option(
+    "target", type=discord.Member,
+    description="User whos marraige you want to check",
+    required=False,
+)
+async def marriage(
+        context: discord.ApplicationContext, target: discord.Member | None
+):
+    who_to_check = target if target is not None else context.user
+    if who_to_check is None:
+        await context.respond("failed to get target!", ephemeral=True)
+        return
+
+    marriage = __find_mariage_for_member_id(who_to_check.id)
+    if len(marriage) <= 0:
+        await context.respond(f"{who_to_check.mention} is not married yet :(")
+        return
+
+    marriage_formatted = '💞'.join(
+        [f"<@{user}>" for user in marriage]
+    )
+    await context.respond(marriage_formatted)
 
 
 @bot.slash_command()
