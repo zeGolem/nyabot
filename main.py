@@ -121,6 +121,9 @@ async def marry(
         + f" {marriage_asker.mention}?", view=marriage_confirmation)
 
     await marriage_confirmation.wait()
+
+    marriage_confirmation.disable_all_items()
+
     if marriage_confirmation.user_accepted is None:
         await context.respond("silly little bug going on :3 try again l8er :3")
         return
@@ -169,6 +172,7 @@ async def marry(
         )
 
         await polycule_confirmation_view.wait()
+        polycule_confirmation_view.disable_all_items()
 
         if polycule_confirmation_view.user_accepted is None:
             await context.respond("you hit a bug owo. nothing i can do, try again!")
