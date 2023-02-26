@@ -81,7 +81,7 @@ async def marriage(
         await context.respond(f"{who_to_check.mention} is not married yet :(")
         return
 
-    marriage_formatted = '💞'.join(
+    marriage_formatted = ' 💞 '.join(
         [f"<@{user}>" for user in marriage]
     )
     await context.respond(marriage_formatted)
