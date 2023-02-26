@@ -129,6 +129,7 @@ async def marry(
         await context.respond(
             "no consent == no marriage! consent is key to a happy life :3"
         )
+        return
 
     # Marriage was accepted, yay :3!
     # Now check for polycules
@@ -142,7 +143,6 @@ async def marry(
         await context.respond(
             f"{marriage_asker.mention} married {member_to_marry.mention}"
         )
-
         return
 
     users_who_confirmed_the_marriage = [marriage_asker.id, member_to_marry.id]
