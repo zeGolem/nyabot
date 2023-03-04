@@ -40,5 +40,9 @@
   "blush": [ 
     "$2's blushing!~ Cutieeee~",
     "$2's blushing~ How cute~"
+  ],
+  "bedtime": [
+    "Good girls need their sleep, $1!",
+    "Isn't it past your bedtime, $1?"
   ]
 }

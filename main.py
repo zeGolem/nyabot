@@ -6,6 +6,9 @@ import random
 
 import data_manager
 import interaction_views
+import datetime
+import sched
+import time
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -42,6 +45,7 @@ Slash commands:
 /marriage - Shows marriage information
 ```
 """
+
 
 
 def __find_mariage_for_member_id(member_id: int) -> list[int]:
@@ -273,6 +277,18 @@ async def gif_command_handler(message: discord.Message, command: list[str]):
     choosen_line = choosen_line.replace("$2", target)
     await message.reply(f"{choosen_line}\n{choosen_gif}")
 
+async def bedtimeHandler(message: discord.Message):
+    currentTime = datetime.datetime.now(datetime.timezone.utc) #Get current UTC time
+    sender = message.author.id #Get ID of the message author
+    if sender != 641514450884493342: #Is the sender not Nea (maybe add more people)?
+        return #It isn't her, so just return.
+
+    if currentTime.hour >= 22 or currentTime.hour <= 4: #Is it between 12am-6amFinnish time? (Can adjust hours if she wants)
+        choosen_line = random.choice(lines["bedtime"])
+        choosen_line = choosen_line.replace("$1", message.author.name)
+        await message.reply(choosen_line) #Send a message
+        return
+        
 GIF_COMMANDS = [
     "hug",
     "kiss",
@@ -300,6 +316,7 @@ async def on_message(message: discord.Message):
     command = message_as_command[0]
     if command in GIF_COMMANDS:
         await gif_command_handler(message, message_as_command)
+    await bedtimeHandler(message)
 
 
 bot.run(open("token").read())
